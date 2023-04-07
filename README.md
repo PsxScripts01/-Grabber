@@ -1,5 +1,5 @@
 <h1 align="center">
-   Blank Grabber
+   MEDI Grabber
 </h1>
 <p align= "center">
    <kbd>
